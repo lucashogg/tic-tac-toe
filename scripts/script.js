@@ -19,7 +19,10 @@ const gameboard = () => {
         [2, 4, 6]
     ]
 
-    return { board, winningCombos };
+    const getBoard = () => board;
+    const getWinningCombos = () => winningCombos;
+
+    return { getBoard, getWinningCombos };
 }
 
 const gameController = () => {
@@ -41,6 +44,35 @@ const gameController = () => {
 
     const playRound = () => {
         printNewRound();
+
+        const currentBoard = board.getBoard();
+        const winningCombos = board.getWinningCombos();
+        let playerSelect;
+        let rounds = 9;
+
+        // Play through rounds until board fills up or winning combo occurs
+        while (rounds != 0) {
+            // playerSelect = prompt(`Please enter a number for ${getCurrentPlayer().symbol}`);
+            while (currentBoard[playerSelect] != '') {
+                playerSelect = prompt(`Please enter a number for ${getCurrentPlayer().symbol}`);
+            }
+            currentBoard[playerSelect] = getCurrentPlayer().symbol;
+            console.log(currentBoard);
+            switchCurrentPlayer();
+
+
+            // Check for winner
+            // for (let j = 0; j < winningCombos.length; j++) {
+            //     let a = winningCombos[j][0];
+            //     let b = winningCombos[j][1];
+            //     let c = winningCombos[j][2];
+
+            //     for (let k = 0; k < currentBoard.length; k++);
+
+            // }
+            rounds--
+            console.log(rounds);
+        }
 
     }
 
