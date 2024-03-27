@@ -68,6 +68,7 @@ const gameController = () => {
                     }
                 }
 
+                // Compare potential winning array with winning combos
                 for (let j = 0; j < winningCombos.length; j++) {
                     winner = winningArray.filter(n => winningCombos[j].includes(n));
 
@@ -87,8 +88,10 @@ const gameController = () => {
             console.log(rounds);
             switchCurrentPlayer();
         }
-
+        console.log('stalemate');
     }
 
     return { playRound };
 }
+
+const game = gameController();
