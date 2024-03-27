@@ -1,3 +1,5 @@
+// UI elements
+
 // Create player
 const player = (symbol) => {
     this.symbol = symbol;
@@ -88,6 +90,7 @@ const gameController = () => {
             console.log(rounds);
             switchCurrentPlayer();
         }
+
         console.log('stalemate');
     }
 
