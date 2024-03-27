@@ -28,7 +28,6 @@ const gameboard = () => {
 const gameController = () => {
     const player1 = player('x');
     const player2 = player('o');
-    const gameCount = 0;
 
     const board = gameboard();
 
@@ -43,35 +42,50 @@ const gameController = () => {
     }
 
     const playRound = () => {
-        printNewRound();
-
         const currentBoard = board.getBoard();
         const winningCombos = board.getWinningCombos();
         let playerSelect;
-        let rounds = 9;
+        let rounds = 0;
 
         // Play through rounds until board fills up or winning combo occurs
-        while (rounds != 0) {
-            // playerSelect = prompt(`Please enter a number for ${getCurrentPlayer().symbol}`);
-            while (currentBoard[playerSelect] != '') {
-                playerSelect = prompt(`Please enter a number for ${getCurrentPlayer().symbol}`);
-            }
-            currentBoard[playerSelect] = getCurrentPlayer().symbol;
-            console.log(currentBoard);
-            switchCurrentPlayer();
+        while (rounds != 9) {
+            printNewRound();
 
+            let symbol = getCurrentPlayer().symbol;
+
+            while (currentBoard[playerSelect] != '') {
+                playerSelect = prompt(`Please enter a number for ${symbol}`);
+            }
+            currentBoard[playerSelect] = symbol;
+            console.log(currentBoard);
 
             // Check for winner
-            // for (let j = 0; j < winningCombos.length; j++) {
-            //     let a = winningCombos[j][0];
-            //     let b = winningCombos[j][1];
-            //     let c = winningCombos[j][2];
+            if (rounds >= 2) {
+                let winningArray = [];
+                for (let i = 0; i < currentBoard.length; i++) {
+                    if (currentBoard[i] === symbol) {
+                        winningArray.push(i);
+                    }
+                }
 
-            //     for (let k = 0; k < currentBoard.length; k++);
+                for (let j = 0; j < winningCombos.length; j++) {
+                    winner = winningArray.filter(n => winningCombos[j].includes(n));
 
-            // }
-            rounds--
+                    if (winner.length === 3) {
+                        for (let k = 0; k < winner.length; k++) {
+                            if (winner[k] != winningCombos[j][k]) {
+                                break;
+                            }
+                        }
+                        console.log(`${symbol} wins!`);
+                        return;
+                    }
+                }
+            }
+
+            rounds++
             console.log(rounds);
+            switchCurrentPlayer();
         }
 
     }
