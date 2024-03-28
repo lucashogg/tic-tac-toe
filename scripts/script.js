@@ -8,7 +8,7 @@ const player = (symbol) => {
 }
 
 // Initialize board
-const gameboard = () => {
+const gameboard = (function () {
     const board = ['', '', '', '', '', '', '', '', ''];
     const winningCombos = [
         [0, 1, 2],
@@ -25,18 +25,44 @@ const gameboard = () => {
     const getWinningCombos = () => winningCombos;
 
     return { getBoard, getWinningCombos };
+})();
+
+// Get winner
+const getWinner = (currentBoard, symbol) => {
+    const winningCombos = gameboard.getWinningCombos();
+    let winningArray = [];
+
+    for (let i = 0; i < currentBoard.length; i++) {
+        if (currentBoard[i] === symbol) {
+            winningArray.push(i);
+        }
+    }
+
+    // Compare potential winning array with winning combos
+    for (let j = 0; j < winningCombos.length; j++) {
+        winner = winningArray.filter(n => winningCombos[j].includes(n));
+
+        if (winner.length === 3) {
+            for (let k = 0; k < winner.length; k++) {
+                if (winner[k] != winningCombos[j][k]) {
+                    break;
+                }
+            }
+            return symbol;
+        }
+    }
 }
 
-const gameController = () => {
+const gameController = (() => {
     const player1 = player('x');
     const player2 = player('o');
 
-    const board = gameboard();
-
     let currentPlayer = player1;
+
     const switchCurrentPlayer = () => {
         currentPlayer = currentPlayer === player1 ? player2 : player1;
     }
+
     const getCurrentPlayer = () => currentPlayer;
 
     const printNewRound = () => {
@@ -44,8 +70,7 @@ const gameController = () => {
     }
 
     const playRound = () => {
-        const currentBoard = board.getBoard();
-        const winningCombos = board.getWinningCombos();
+        const currentBoard = gameboard.getBoard();
         let playerSelect;
         let rounds = 0;
 
@@ -63,26 +88,10 @@ const gameController = () => {
 
             // Check for winner
             if (rounds >= 2) {
-                let winningArray = [];
-                for (let i = 0; i < currentBoard.length; i++) {
-                    if (currentBoard[i] === symbol) {
-                        winningArray.push(i);
-                    }
-                }
-
-                // Compare potential winning array with winning combos
-                for (let j = 0; j < winningCombos.length; j++) {
-                    winner = winningArray.filter(n => winningCombos[j].includes(n));
-
-                    if (winner.length === 3) {
-                        for (let k = 0; k < winner.length; k++) {
-                            if (winner[k] != winningCombos[j][k]) {
-                                break;
-                            }
-                        }
-                        console.log(`${symbol} wins!`);
-                        return;
-                    }
+                const winner = getWinner(currentBoard, symbol);
+                if (winner) {
+                    console.log(`${winner} wins!`);
+                    break;
                 }
             }
 
@@ -91,10 +100,13 @@ const gameController = () => {
             switchCurrentPlayer();
         }
 
-        console.log('stalemate');
+        // If stalemate
+        if (rounds === 9) {
+            console.log('stalemate');
+        }
     }
 
     return { playRound };
-}
+})();
 
-const game = gameController();
+// gameController.playRound();
