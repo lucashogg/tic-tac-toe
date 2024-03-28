@@ -1,4 +1,17 @@
 // UI elements
+const getUIElements = (symbol) => {
+    const cells = document.querySelectorAll('.cell');
+
+    const clickCell = () => {
+        cells.forEach((cell) => {
+            cell.addEventListener('click', () => {
+                console.log(cell.id);
+            })
+        });
+    }
+
+    return { clickCell };
+}
 
 // Create player
 const player = (symbol) => {
