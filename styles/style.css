@@ -1,2 +1,16 @@
 /* Reset */
 @import './reset.css';
+
+/***** MAIN *****/
+
+/* Game Box */
+.game-box {
+    display: grid;
+    max-width: 300px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.cell {
+    border: 1px solid;
+    height: 100px;
+}
